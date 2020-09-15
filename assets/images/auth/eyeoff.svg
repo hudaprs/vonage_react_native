@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>9402DCE9-E2A0-421B-83B9-19EBB10AA560</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Register" transform="translate(-281.000000, -332.000000)">
+            <g id="Group-8" transform="translate(15.000000, 332.000000)">
+                <g id="Group-52" transform="translate(266.000000, 0.000000)">
+                    <g id="Group-51" stroke="#121212" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                        <path d="M17.94,17.94 C16.23059,19.2430022 14.1491075,19.9648632 12,20 C5,20 1,12 1,12 C2.2438899,9.68189567 3.96913545,7.65660741 6.06,6.06 M9.9,4.24 C10.5883323,4.07887951 11.2930641,3.99833874 12,3.99997482 C19,3.99997482 23,12 23,12 C22.3929796,13.1356074 21.6690554,14.2047361 20.84,15.19 M14.12,14.12 C13.3721177,14.9226127 12.2457778,15.2529967 11.1828444,14.9815422 C10.1199109,14.7100876 9.28991239,13.8800891 9.01845783,12.8171556 C8.74700327,11.7542222 9.07738729,10.6278823 9.88,9.88" id="Shape"></path>
+                        <line x1="1" y1="1" x2="23" y2="23" id="Path"></line>
+                    </g>
+                    <g id="eye-off" transform="translate(1.000000, 1.000000)"></g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

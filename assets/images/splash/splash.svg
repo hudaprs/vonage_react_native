@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="219px" height="222px" viewBox="0 0 219 222" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>013276CC-8DB6-493F-B627-5F5CC3D945D2</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="SplashScreen" transform="translate(-58.000000, -202.000000)">
+            <g id="Group-3" transform="translate(58.000000, 202.000000)">
+                <g id="Group">
+                    <ellipse id="Oval" fill="#FFB12A" cx="121.5" cy="125" rx="97.5" ry="97"></ellipse>
+                    <ellipse id="Oval" fill="#097BED" cx="97.5" cy="97" rx="97.5" ry="97"></ellipse>
+                </g>
+                <g id="Group-2" transform="translate(13.000000, 59.000000)">
+                    <text id="Vonnage!" font-family="Poppins-SemiBold, Poppins" font-size="34" font-weight="500" fill="#FFFFFF">
+                        <tspan x="0" y="59">Vonnage!</tspan>
+                    </text>
+                    <text id="BTS.id" font-family="Poppins-SemiBold, Poppins" font-size="20" font-weight="500" fill="#FFFFFF">
+                        <tspan x="53" y="21">BTS.id</tspan>
+                    </text>
+                    <rect id="Rectangle" stroke="#FFB12A" fill="#FFB12A" x="64.5" y="75.5" width="101" height="1"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
