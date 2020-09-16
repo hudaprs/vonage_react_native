@@ -6,6 +6,14 @@ export const deviceSize = {
   deviceHeight: Dimensions.get('window').height
 }
 
+// Size
+export const sizes = {
+  xl: 24,
+  lg: 20,
+  md: 16,
+  sm: 12
+}
+
 // Global Styles
 export const globalStyles = StyleSheet.create({
   container: {
@@ -19,7 +27,6 @@ export const globalStyles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center'
-    // height: deviceSize.deviceHeight
   },
 
   flexRow: {
@@ -29,6 +36,10 @@ export const globalStyles = StyleSheet.create({
 
   inputGroup: {
     marginBottom: 10
+  },
+
+  grow: {
+    flexGrow: 1
   }
 })
 
@@ -51,6 +62,45 @@ export const fonts = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
     fontSize: 12,
     color: colors.black
+  },
+  xl: {
+    fontSize: sizes.xl
+  },
+  lg: {
+    fontSize: sizes.lg
+  },
+  bold: {
+    fontWeight: 'bold'
+  }
+})
+
+export const colored = StyleSheet.create({
+  indigo: {
+    color: colors.indigo
+  },
+  black: {
+    color: colors.black
+  },
+  white: {
+    color: colors.white
+  },
+  thinGray: {
+    color: colors.thinGray
+  },
+  whiteWithOpacity: {
+    color: colors.whiteWithOpacity
+  },
+  thinWhite: {
+    color: colors.thinWhite
+  },
+  blue: {
+    color: colors.blue
+  },
+  supernova: {
+    color: colors.supernova
+  },
+  error: {
+    color: colors.error
   }
 })
 
@@ -96,6 +146,20 @@ export const margins = StyleSheet.create({
   },
   mx1: {
     marginHorizontal: 10
+  },
+
+  // Vertical
+  my4: {
+    marginVertical: 40
+  },
+  my3: {
+    marginVertical: 30
+  },
+  my2: {
+    marginVertical: 20
+  },
+  my1: {
+    marginVertical: 10
   }
 })
 

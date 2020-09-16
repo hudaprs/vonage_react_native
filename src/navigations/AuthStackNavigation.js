@@ -6,6 +6,7 @@ const Stack = createStackNavigator()
 
 // Screens
 import SignUpScreen from '@screens/auth/SignUpScreen'
+import VerificationSuccessScreen from '@screens/auth/VerificationSuccessScreen'
 import VerificationScreen from '@screens/auth/VerificationScreen'
 
 // Components
@@ -28,6 +29,15 @@ const AuthStackNavigation = () => {
         options={{
           title: 'Verification',
           headerTitle: () => <DefaultHeader title='Verification' />
+        }}
+      />
+      <Stack.Screen
+        name='VerificationSuccess'
+        component={VerificationSuccessScreen}
+        options={{
+          title: 'VerificationSuccess',
+          headerLeft: null,
+          headerTitle: () => <DefaultHeader />
         }}
       />
     </Stack.Navigator>

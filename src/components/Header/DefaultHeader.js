@@ -23,7 +23,7 @@ const DefaultHeader = ({ title }) => {
 }
 
 DefaultHeader.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string
 }
 
 const styles = StyleSheet.create({

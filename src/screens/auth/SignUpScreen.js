@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   View,
   ScrollView,
@@ -8,10 +8,10 @@ import {
 } from 'react-native'
 
 // Components
-import { DefaultText } from '@components'
+import { DefaultText, DefaultButton } from '@components'
 
 // Styles
-import { globalStyles, colors, buttons } from '@styles/styles'
+import { globalStyles, colors } from '@styles/styles'
 
 // SVG
 import UserSVG from '@images/auth/user.svg'
@@ -19,8 +19,18 @@ import MailSVG from '@images/auth/mail.svg'
 import PhoneSVG from '@images/auth/phone.svg'
 import PasswordSVG from '@images/auth/password.svg'
 import EyeOffSVG from '@images/auth/eyeoff.svg'
+import EyeOnSVG from '@images/auth/eyeon.svg'
 
 const SignUpScreen = ({ navigation }) => {
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmationPassword, setShowConfirmationPassword] = useState(
+    false
+  )
+
+  const onNavigate = () => {
+    navigation.navigate('Verification')
+  }
+
   return (
     <View style={globalStyles.container}>
       <ScrollView
@@ -65,9 +75,23 @@ const SignUpScreen = ({ navigation }) => {
               style={styles.textInput}
               placeholder='Password'
               underlineColorAndroid='transparent'
-              secureTextEntry={true}
+              secureTextEntry={!showPassword}
             />
-            <EyeOffSVG style={[styles.inputIcon, { right: 0 }]} />
+            {showPassword ? (
+              <TouchableOpacity
+                style={[styles.inputIcon, { right: 0 }]}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <EyeOnSVG />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={[styles.inputIcon, { right: 0 }]}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <EyeOffSVG />
+              </TouchableOpacity>
+            )}
           </View>
 
           <View style={[globalStyles.flexRow, globalStyles.inputGroup]}>
@@ -76,18 +100,34 @@ const SignUpScreen = ({ navigation }) => {
               style={styles.textInput}
               placeholder='Confirm Password'
               underlineColorAndroid='transparent'
-              secureTextEntry={true}
+              secureTextEntry={!showConfirmationPassword}
             />
-            <EyeOffSVG style={[styles.inputIcon, { right: 0 }]} />
+
+            {showConfirmationPassword ? (
+              <TouchableOpacity
+                style={[styles.inputIcon, { right: 0 }]}
+                onPress={() =>
+                  setShowConfirmationPassword(!showConfirmationPassword)
+                }
+              >
+                <EyeOnSVG />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={[styles.inputIcon, { right: 0 }]}
+                onPress={() =>
+                  setShowConfirmationPassword(!showConfirmationPassword)
+                }
+              >
+                <EyeOffSVG />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 
-        <TouchableOpacity
-          style={[buttons.button, buttons.buttonBlock]}
-          onPress={() => navigation.navigate('Verification')}
-        >
-          <DefaultText style={buttons.buttonText}>Sign Up</DefaultText>
-        </TouchableOpacity>
+        <DefaultButton bottom={true} onPress={onNavigate}>
+          Sign Up
+        </DefaultButton>
       </ScrollView>
     </View>
   )
