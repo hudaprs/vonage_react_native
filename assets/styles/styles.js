@@ -195,3 +195,26 @@ export const texts = StyleSheet.create({
     textAlign: 'center'
   }
 })
+
+// Modal
+export const modals = StyleSheet.create({
+  modal: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0, 0.6)',
+    justifyContent: 'center'
+  },
+  modalContent: {
+    borderRadius: 10,
+    backgroundColor: colors.white,
+    margin: 30,
+    paddingVertical: 20,
+    paddingHorizontal: 30,
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  modalBody: {
+    textAlign: 'center',
+    alignItems: 'center',
+    paddingVertical: 20
+  }
+})

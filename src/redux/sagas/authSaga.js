@@ -45,7 +45,6 @@ function* register({ payload }) {
       phone: payload.phone
     })
   } else {
-    yield alert(verify.message)
     yield put({ type: SET_AUTH_ERROR, payload: user })
   }
 }

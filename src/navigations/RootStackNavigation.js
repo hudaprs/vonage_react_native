@@ -23,9 +23,8 @@ const RootStackNavigation = ({ verify, auth }) => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
+      verify()
     }, 1000)
-
-    verify()
     // eslint-disable-next-line
   }, [])
 

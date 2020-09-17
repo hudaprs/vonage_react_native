@@ -6,7 +6,8 @@ import {
   CANCEL_REGISTER,
   CODE_VERIFY,
   VERIFY,
-  SET_AUTH_ERROR
+  SET_AUTH_ERROR,
+  CLEAR_AUTH_ERROR
 } from '@reduxActions/authActions'
 
 const initialState = {
@@ -75,7 +76,14 @@ export default (state = initialState, { type, payload }) => {
       }
     case SET_AUTH_ERROR:
       return {
-        ...state
+        ...state,
+        error: payload,
+        loading: false
+      }
+    case CLEAR_AUTH_ERROR:
+      return {
+        ...state,
+        error: null
       }
     default:
       return state

@@ -9,3 +9,6 @@ export { default as DefaultButton } from './Button/DefaultButton'
 
 // INPUT
 export { default as TextInputWithIcon } from './Input/TextInputWithIcon'
+
+// MODAL
+export { default as DefaultModal } from './Modal/DefaultModal'

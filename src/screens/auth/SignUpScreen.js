@@ -8,7 +8,12 @@ import {
 } from 'react-native'
 
 // Components
-import { DefaultText, DefaultButton, TextInputWithIcon } from '@components'
+import {
+  DefaultText,
+  DefaultButton,
+  TextInputWithIcon,
+  DefaultModal
+} from '@components'
 
 // Styles
 import { globalStyles, colors } from '@styles/styles'
@@ -22,10 +27,17 @@ import EyeOnSVG from '@images/auth/eyeon.svg'
 import { connect } from 'react-redux'
 import {
   SET_REGISTER_DATA,
-  REGISTER_REQUESTED
+  REGISTER_REQUESTED,
+  CLEAR_AUTH_ERROR
 } from '@reduxActions/authActions'
 
-const SignUpScreen = ({ navigation, auth, setRegisterData, register }) => {
+const SignUpScreen = ({
+  navigation,
+  auth,
+  setRegisterData,
+  register,
+  clearError
+}) => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmationPassword, setShowConfirmationPassword] = useState(
     false
@@ -39,13 +51,13 @@ const SignUpScreen = ({ navigation, auth, setRegisterData, register }) => {
     setRegisterData({ ...registerData, [name]: value })
   }
 
+  const onClearError = () => {
+    clearError()
+  }
+
   // Register the new user when pressing button
   const onRegister = () => {
-    if (!registerData.phone) {
-      alert('Please fill the phone')
-    } else {
-      register(registerData)
-    }
+    register(registerData)
   }
 
   return (
@@ -54,6 +66,19 @@ const SignUpScreen = ({ navigation, auth, setRegisterData, register }) => {
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
         showsVerticalScrollIndicator={false}
       >
+        {/* Modal */}
+        <DefaultModal
+          visibility={!!auth.error}
+          onPress={onClearError}
+          titleHeader={auth.error ? auth.error.name : 'ERROR'}
+        >
+          <DefaultText>
+            {auth.error || (auth.error && auth.error.response.data.message)
+              ? auth.error.response.data.message
+              : 'Something went wrong!'}
+          </DefaultText>
+        </DefaultModal>
+
         <View>
           <DefaultText>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -174,7 +199,8 @@ const mapDispatchToProps = dispatch => ({
   setRegisterData: registerData =>
     dispatch({ type: SET_REGISTER_DATA, payload: registerData }),
   register: registerData =>
-    dispatch({ type: REGISTER_REQUESTED, payload: registerData })
+    dispatch({ type: REGISTER_REQUESTED, payload: registerData }),
+  clearError: () => dispatch({ type: CLEAR_AUTH_ERROR })
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen)

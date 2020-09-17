@@ -65,17 +65,16 @@ export const verify = async () => {
     // Get the verified request ID
     const requestVerifiedID = await AsyncStorage.getItem('requestVerifiedID')
 
-    if(requestVerifiedID) {
+    if (requestVerifiedID) {
       const { data } = await axios(`/verify/${requestVerifiedID}`)
 
-      return data   
+      return data
     } else {
       return {
-        'error': true,
-        'message': 'Unauthorized'
+        error: true,
+        message: 'Unauthorized'
       }
     }
-
   } catch (err) {
     return err
   }
