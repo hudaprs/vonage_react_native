@@ -36,6 +36,13 @@ function* register({ payload }) {
 
   const user = yield call(registerAPI, payload)
 
+  // Handle error from NEXMO
+  if (user.status === 'ERROR') {
+    console.log(user)
+    yield put({ type: SET_AUTH_ERROR, payload: user.error.error_text })
+    return
+  }
+
   // Check for error
   if (user.name !== 'Error') {
     yield put({ type: REGISTER, payload: user.result })
@@ -45,7 +52,7 @@ function* register({ payload }) {
       phone: payload.phone
     })
   } else {
-    yield put({ type: SET_AUTH_ERROR, payload: user })
+    yield put({ type: SET_AUTH_ERROR, payload: user.message })
   }
 }
 
@@ -105,6 +112,7 @@ function* verify() {
   yield put({ type: SET_AUTH_LOADING })
 
   const verify = yield call(verifyAPI)
+  console.log(verify)
   // Check for error
   if (verify.name !== 'Error') {
     // Check for error again

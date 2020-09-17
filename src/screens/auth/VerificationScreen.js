@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   View,
   ScrollView,
@@ -12,8 +12,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { globalStyles } from '@styles/styles'
 
 // Components
-import OTPInputView from '@twotalltotems/react-native-otp-input'
-import { DefaultText, DefaultButton } from '@components'
+import { DefaultText, DefaultButton, OTPInput } from '@components'
 
 // SVG
 import VerificationSVG from '@images/auth/verification.svg'
@@ -41,23 +40,9 @@ const VerificationScreen = ({ navigation, route, auth, verifyCode }) => {
   const [arrCode, setArrCode] = useState([])
   const [code, setCode] = useState('')
 
-  const onVerify = () => {
-    if (!code) {
-      alert('Please input the code from sms you receive')
-      return false
-    } else {
-      verifyCode(code)
-    }
+  const onVerify = code => {
+    verifyCode(code)
   }
-
-  useEffect(() => {
-    // Check if user doesn't have any request ID
-    if (auth.requestID === '') {
-      navigation.navigate('SignUp')
-
-      alert('Please, register first!')
-    }
-  }, [])
 
   return (
     <View style={globalStyles.container}>
@@ -77,31 +62,10 @@ const VerificationScreen = ({ navigation, route, auth, verifyCode }) => {
             </DefaultText>
           </DefaultText>
 
-          {/* OTP Input Form */}
-          <View style={{ marginHorizontal: 30 }}>
-            <OTPInputView
-              color='red'
-              style={{
-                height: 100,
-                width: deviceSize.width
-              }}
-              pinCount={4}
-              code={code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-              onCodeChanged={value => {
-                arrCode.push(value)
-                setCode(arrCode[arrCode.length - 1])
-              }}
-              autoFocusOnLoad
-              // clearInputs={true}
-              placeholderTextColor='#000'
-              codeInputFieldStyle={styles.underlineStyleBase}
-              codeInputHighlightStyle={styles.underlineStyleHighLighted}
-              codeInputFieldStyle={styles.codeInputColor}
-              onCodeFilled={code => setCode(code)}
-            />
-          </View>
+          {/* OTP Form */}
+          <OTPInput setCode={code => onVerify(code)} />
 
-          <DefaultText
+          {/* <DefaultText
             style={[styles.verificationText, margins.mx2, margins.mt2]}
           >
             If you didn’t receive a code!{' '}
@@ -110,7 +74,7 @@ const VerificationScreen = ({ navigation, route, auth, verifyCode }) => {
             >
               Resend
             </DefaultText>
-          </DefaultText>
+          </DefaultText> */}
 
           {/* Modal */}
           <Modal visible={modal} animationType='fade' transparent={true}>
@@ -161,10 +125,6 @@ const VerificationScreen = ({ navigation, route, auth, verifyCode }) => {
             </View>
           </Modal>
         </View>
-
-        <DefaultButton onPress={onVerify} bottom>
-          Verify
-        </DefaultButton>
       </ScrollView>
     </View>
   )

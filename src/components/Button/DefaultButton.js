@@ -18,12 +18,7 @@ import { buttons, colors } from '@styles/styles'
  */
 const DefaultButton = ({ children, style, onPress, bottom, loading }) => {
   // Place button in bottom
-  const buttonPlacement = bottom
-    ? {
-        position: 'absolute',
-        bottom: 0
-      }
-    : null
+  const buttonPlacement = bottom ? null : null
 
   return (
     <TouchableOpacity

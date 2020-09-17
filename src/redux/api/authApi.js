@@ -8,6 +8,11 @@ export const register = async signUpData => {
       phone: signUpData.phone
     })
 
+    // Check for error from NEXMO
+    if (data.status === 'ERROR') {
+      return data
+    }
+
     await AsyncStorage.setItem('requestID', data.result.request_id)
 
     return data
@@ -25,7 +30,6 @@ export const cancelRegister = async () => {
     const { data } = await axios.post(`/cancel`, {
       requestID
     })
-
     // Delete request ID
     await AsyncStorage.removeItem('requestID')
 

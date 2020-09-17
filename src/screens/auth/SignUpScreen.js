@@ -12,11 +12,12 @@ import {
   DefaultText,
   DefaultButton,
   TextInputWithIcon,
-  DefaultModal
+  DefaultModal,
+  OTPInput
 } from '@components'
 
 // Styles
-import { globalStyles, colors } from '@styles/styles'
+import { globalStyles, colors, colored } from '@styles/styles'
 
 // SVG
 import PasswordSVG from '@images/auth/password.svg'
@@ -73,15 +74,20 @@ const SignUpScreen = ({
           titleHeader={auth.error ? auth.error.name : 'ERROR'}
         >
           <DefaultText>
-            {auth.error || (auth.error && auth.error.response.data.message)
-              ? auth.error.response.data.message
-              : 'Something went wrong!'}
+            {auth.error ? auth.error : 'Something went wrong!'}
           </DefaultText>
         </DefaultModal>
 
         <View>
           <DefaultText>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Have a code
+            before? Go to{' '}
+            <DefaultText
+              style={colored.blue}
+              onPress={() => navigation.navigate('Verification')}
+            >
+              Verification
+            </DefaultText>
           </DefaultText>
 
           {/* <TextInputWithIcon
