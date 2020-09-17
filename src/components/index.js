@@ -6,3 +6,6 @@ export { default as DefaultHeader } from './Header/DefaultHeader'
 
 // BUTTON
 export { default as DefaultButton } from './Button/DefaultButton'
+
+// INPUT
+export { default as TextInputWithIcon } from './Input/TextInputWithIcon'

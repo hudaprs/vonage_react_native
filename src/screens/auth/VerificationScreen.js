@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   View,
   ScrollView,
@@ -6,6 +6,7 @@ import {
   Modal,
   TouchableOpacity
 } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 
 // Styles
 import { globalStyles } from '@styles/styles'
@@ -19,24 +20,44 @@ import VerificationSVG from '@images/auth/verification.svg'
 import VerificationFailedSVG from '@images/auth/verification-failed.svg'
 
 // Styles
-import { margins, colors, buttons, deviceSize } from '@styles/styles'
+import {
+  margins,
+  colors,
+  buttons,
+  deviceSize,
+  colored,
+  fonts
+} from '@styles/styles'
 
-const VerificationScreen = ({ navigation }) => {
+// Redux
+import { connect } from 'react-redux'
+import {
+  CODE_VERIFY_REQUESTED,
+  CANCEL_REGISTER_REQUESTED
+} from '@reduxActions/authActions'
+
+const VerificationScreen = ({ navigation, route, auth, verifyCode }) => {
   const [modal, setModal] = useState(false)
   const [arrCode, setArrCode] = useState([])
   const [code, setCode] = useState('')
 
   const onVerify = () => {
     if (!code) {
+      alert('Please input the code from sms you receive')
       return false
     } else {
-      if (code === '1234') {
-        navigation.navigate('VerificationSuccess')
-      } else {
-        setModal(true)
-      }
+      verifyCode(code)
     }
   }
+
+  useEffect(() => {
+    // Check if user doesn't have any request ID
+    if (auth.requestID === '') {
+      navigation.navigate('SignUp')
+
+      alert('Please, register first!')
+    }
+  }, [])
 
   return (
     <View style={globalStyles.container}>
@@ -52,12 +73,8 @@ const VerificationScreen = ({ navigation }) => {
             <DefaultText
               style={[styles.verificationText, { color: colors.blue }]}
             >
-              0894 5345 6789
+              {route.params ? route.params.phone : '-'}
             </DefaultText>
-          </DefaultText>
-
-          <DefaultText style={[styles.verificationText, margins.mx2]}>
-            Enter the verification code we sent you on your number phone
           </DefaultText>
 
           {/* OTP Input Form */}
@@ -210,4 +227,13 @@ const styles = StyleSheet.create({
   }
 })
 
-export default VerificationScreen
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+const mapDispatchToProps = dispatch => ({
+  verifyCode: code => dispatch({ type: CODE_VERIFY_REQUESTED, payload: code }),
+  cancelRegister: () => dispatch({ type: CANCEL_REGISTER_REQUESTED })
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(VerificationScreen)

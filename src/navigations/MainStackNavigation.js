@@ -7,7 +7,7 @@ const Stack = createStackNavigator()
 // Screens
 import HomeScreen from '@screens/home/HomeScreen'
 
-const HomeStackNavigation = () => {
+const MainStackNavigation = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name='Home' component={HomeScreen} />
@@ -15,4 +15,4 @@ const HomeStackNavigation = () => {
   )
 }
 
-export default HomeStackNavigation
+export default MainStackNavigation

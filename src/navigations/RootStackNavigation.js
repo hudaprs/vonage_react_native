@@ -6,13 +6,18 @@ import { createStackNavigator } from '@react-navigation/stack'
 const Stack = createStackNavigator()
 
 // Navigations
+import { setNavigator } from '@navigations/NavigationRef'
 import AuthStackNavigation from '@navigations/AuthStackNavigation'
-import HomeStackNavigation from '@navigations/HomeStackNavigation'
+import MainStackNavigation from '@navigations/MainStackNavigation'
 
 // Screens
 import SplashScreen from '@screens/single/SplashScreen'
 
-const RootStackNavigation = () => {
+// Redux
+import { connect } from 'react-redux'
+import { VERIFY_REQUESTED } from '@reduxActions/authActions'
+
+const RootStackNavigation = ({ verify, auth }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -20,6 +25,7 @@ const RootStackNavigation = () => {
       setLoading(false)
     }, 1000)
 
+    verify()
     // eslint-disable-next-line
   }, [])
 
@@ -27,17 +33,25 @@ const RootStackNavigation = () => {
     return <SplashScreen />
   } else {
     return (
-      <NavigationContainer>
+      <NavigationContainer ref={navigator => setNavigator(navigator)}>
         <Stack.Navigator headerMode='none'>
-          {/* Auth */}
-          <Stack.Screen name='Auth' component={AuthStackNavigation} />
-
-          {/* App */}
-          <Stack.Screen name='App' component={HomeStackNavigation} />
+          {!auth.loading && auth.nexmo && auth.nexmo.status === 'SUCCESS' ? (
+            <Stack.Screen name='App' component={MainStackNavigation} />
+          ) : (
+            <Stack.Screen name='Auth' component={AuthStackNavigation} />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     )
   }
 }
 
-export default RootStackNavigation
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+const mapDispatchToProps = dispatch => ({
+  verify: () => dispatch({ type: VERIFY_REQUESTED })
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RootStackNavigation)

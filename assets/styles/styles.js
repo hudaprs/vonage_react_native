@@ -52,6 +52,7 @@ export const colors = {
   whiteWithOpacity: 'rgba(255,255,255,0.3)',
   thinWite: '#f7f7f7',
   blue: '#097bed',
+  blueWithOpacity: 'rgba(9, 123, 237, .5)',
   supernova: '#ffb12a',
   error: '#d93128'
 }
@@ -169,7 +170,10 @@ export const buttons = StyleSheet.create({
     width: 290,
     height: 34,
     borderRadius: 5,
-    backgroundColor: colors.blue
+    backgroundColor: colors.blue,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   buttonText: {
     marginTop: 7,
@@ -179,6 +183,9 @@ export const buttons = StyleSheet.create({
   },
   buttonBlock: {
     width: '100%'
+  },
+  buttonDisable: {
+    backgroundColor: colors.blueWithOpacity
   }
 })
 
