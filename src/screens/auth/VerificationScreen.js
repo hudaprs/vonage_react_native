@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   View,
   ScrollView,
@@ -6,13 +6,12 @@ import {
   Modal,
   TouchableOpacity
 } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
 
 // Styles
 import { globalStyles } from '@styles/styles'
 
 // Components
-import { DefaultText, DefaultButton, OTPInput } from '@components'
+import { DefaultText, Spinner, OTPInput } from '@components'
 
 // SVG
 import VerificationSVG from '@images/auth/verification.svg'
@@ -32,13 +31,27 @@ import {
 import { connect } from 'react-redux'
 import {
   CODE_VERIFY_REQUESTED,
-  CANCEL_REGISTER_REQUESTED
+  CANCEL_REGISTER_REQUESTED,
+  SET_VERIFY_VERIFICATION_REQUESTED
 } from '@reduxActions/authActions'
+import { verifyVerification } from '../../redux/api/authApi'
 
-const VerificationScreen = ({ navigation, route, auth, verifyCode }) => {
+const VerificationScreen = ({
+  navigation,
+  route,
+  auth,
+  verifyCode,
+  verifyVerification
+}) => {
   const [modal, setModal] = useState(false)
-  const [arrCode, setArrCode] = useState([])
   const [code, setCode] = useState('')
+
+  useEffect(() => {
+    // Verify the verification when user access this screen
+    verifyVerification()
+
+    // eslint-disable-next-line
+  }, [])
 
   const onVerify = code => {
     verifyCode(code)
@@ -46,6 +59,7 @@ const VerificationScreen = ({ navigation, route, auth, verifyCode }) => {
 
   return (
     <View style={globalStyles.container}>
+      <Spinner loading={auth.loading} />
       <ScrollView
         contentContainerStyle={[globalStyles.grow, globalStyles.allCenter]}
         showsVerticalScrollIndicator={false}
@@ -193,7 +207,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   verifyCode: code => dispatch({ type: CODE_VERIFY_REQUESTED, payload: code }),
-  cancelRegister: () => dispatch({ type: CANCEL_REGISTER_REQUESTED })
+  cancelRegister: () => dispatch({ type: CANCEL_REGISTER_REQUESTED }),
+  verifyVerification: () =>
+    dispatch({ type: SET_VERIFY_VERIFICATION_REQUESTED })
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(VerificationScreen)

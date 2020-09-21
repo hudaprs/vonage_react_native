@@ -12,6 +12,8 @@ import {
   CODE_VERIFY_REQUESTED,
   VERIFY,
   VERIFY_REQUESTED,
+  SET_VERIFY_VERIFICATION,
+  SET_VERIFY_VERIFICATION_REQUESTED,
   SET_AUTH_ERROR
 } from '@reduxActions/authActions'
 
@@ -20,7 +22,8 @@ import {
   register as registerAPI,
   cancelRegister as cancelRegisterAPI,
   verifyCode as verifyCodeAPI,
-  verify as verifyAPI
+  verify as verifyAPI,
+  verifyVerification as verifyVerificationAPI
 } from '@api/authApi'
 
 // Navigations
@@ -38,13 +41,15 @@ function* register({ payload }) {
 
   // Handle error from NEXMO
   if (user.status === 'ERROR') {
-    console.log(user)
+    console.log('NEXMO ERROR', user)
     yield put({ type: SET_AUTH_ERROR, payload: user.error.error_text })
     return
   }
 
   // Check for error
   if (user.name !== 'Error') {
+    console.log('REGISTER SUCCESS', user)
+
     yield put({ type: REGISTER, payload: user.result })
 
     // Navigate to Verification Screen
@@ -52,7 +57,11 @@ function* register({ payload }) {
       phone: payload.phone
     })
   } else {
-    yield put({ type: SET_AUTH_ERROR, payload: user.message })
+    console.log('REGISTER FAILED', user)
+    yield put({
+      type: SET_AUTH_ERROR,
+      payload: user.response.data.message || user.message
+    })
   }
 }
 
@@ -65,6 +74,9 @@ function* cancelRegister({ payload }) {
   yield put({ type: SET_AUTH_LOADING })
 
   const canceled = yield call(cancelRegisterAPI, payload)
+
+  // Mark for development
+  console.log('Cancel Register', canceled)
 
   // Check for error
   if (canceled.name !== 'Error') {
@@ -93,13 +105,50 @@ function* verifyCode({ payload }) {
 
   // Check for error
   if (verify.name !== 'Error') {
+    console.log('VERIFY CODE SUCCESS', verify)
     yield put({ type: CODE_VERIFY, payload: verify.result })
 
     // Navigate to success screen
-    yield navigate('VerificationSuccess')
+    yield navigate('VerificationSuccess', {
+      requestID: verify.result.request_id
+    })
   } else {
-    yield alert(verify.message)
-    yield put({ type: SET_AUTH_ERROR, payload: verify })
+    console.log('VERIFY CODE ERROR', verify)
+    yield put({
+      type: SET_AUTH_ERROR,
+      payload: verify.response.data.message || verify.message
+    })
+  }
+}
+
+/**
+ * @desc    Verify Verification ( If user already register but not verified yet)
+ * @todo    Handle expired token
+ * @method  GET
+ * @access  Private
+ */
+function* verifyVerification() {
+  yield put({ type: SET_AUTH_LOADING })
+
+  const verifyVerification = yield call(verifyVerificationAPI)
+
+  if (verifyVerification) {
+    console.log('VERIFY VERIFICATION', verifyVerification)
+
+    yield put({ type: SET_VERIFY_VERIFICATION, payload: verifyVerification })
+  } else {
+    console.log('VERIFY VERIFICATION ERROR', 'No verification data found')
+
+    // Naviate to Sign Up
+    yield navigate('Auth', {
+      screen: 'SignUp'
+    })
+
+    // Dispatch the error
+    yield put({
+      type: SET_AUTH_ERROR,
+      payload: 'No verification data found'
+    })
   }
 }
 
@@ -108,28 +157,30 @@ function* verifyCode({ payload }) {
  * @method  POST
  * @access  Private
  */
-function* verify() {
+function* verify({ payload }) {
   yield put({ type: SET_AUTH_LOADING })
 
-  const verify = yield call(verifyAPI)
-  console.log(verify)
+  const verify = yield call(verifyAPI, payload)
+
+  // Mark for development
+  console.log('Verification', verify)
+
   // Check for error
   if (verify.name !== 'Error') {
     // Check for error again
     if (verify.error === true) {
       yield put({ type: SET_AUTH_LOADING_FALSE })
-    } else {
-      // Check if request is success
-      if (verify.result.status === 'SUCCESS') {
-        yield put({ type: VERIFY, payload: verify.result })
-        // Navigate To App / Home
-        yield navigate('App', {
-          screen: 'Home'
-        })
-      }
+    }
+
+    // Check if request is success
+    if (verify.result && verify.result.status === 'SUCCESS') {
+      yield put({ type: VERIFY, payload: verify.result })
+      // Navigate To App / Home
+      yield navigate('App', {
+        screen: 'Home'
+      })
     }
   } else {
-    yield alert(verify.message)
     yield put({ type: SET_AUTH_ERROR })
   }
 }
@@ -139,4 +190,5 @@ export default function* authSaga() {
   yield takeLatest(CANCEL_REGISTER_REQUESTED, cancelRegister)
   yield takeLatest(CODE_VERIFY_REQUESTED, verifyCode)
   yield takeLatest(VERIFY_REQUESTED, verify)
+  yield takeLatest(SET_VERIFY_VERIFICATION_REQUESTED, verifyVerification)
 }

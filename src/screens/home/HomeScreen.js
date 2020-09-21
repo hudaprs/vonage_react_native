@@ -1,11 +1,16 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+
+// Components
+import { Container, DefaultText } from '@components'
+
+// Styles
+import { fonts } from '@styles/styles'
 
 const HomeScreen = () => {
   return (
-    <View>
-      <Text>Home Screen</Text>
-    </View>
+    <Container>
+      <DefaultText style={fonts.xl}>Home</DefaultText>
+    </Container>
   )
 }
 

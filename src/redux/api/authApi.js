@@ -13,6 +13,7 @@ export const register = async signUpData => {
       return data
     }
 
+    await AsyncStorage.setItem('phone', signUpData.phone)
     await AsyncStorage.setItem('requestID', data.result.request_id)
 
     return data
@@ -30,12 +31,30 @@ export const cancelRegister = async () => {
     const { data } = await axios.post(`/cancel`, {
       requestID
     })
-    // Delete request ID
+
+    // Delete phone & request ID
+    await AsyncStorage.removeItem('phone')
     await AsyncStorage.removeItem('requestID')
 
     return data
   } catch (err) {
     return err
+  }
+}
+
+// Verify in Verification
+export const verifyVerification = async () => {
+  const phone = await AsyncStorage.getItem('phone')
+  const requestID = await AsyncStorage.getItem('requestID')
+
+  // Check the request ID
+  if (phone && requestID) {
+    return {
+      phone,
+      requestID
+    }
+  } else {
+    return false
   }
 }
 
@@ -51,11 +70,11 @@ export const verifyCode = async code => {
       code
     })
 
-    // Remove previous request ID
-    await AsyncStorage.removeItem('requestID')
-
     // Assign a new request ID
     await AsyncStorage.setItem('requestVerifiedID', data.result.request_id)
+
+    // Remove previous request ID
+    await AsyncStorage.removeItem('requestID')
 
     return data
   } catch (err) {
@@ -64,13 +83,13 @@ export const verifyCode = async code => {
 }
 
 // Verify Self
-export const verify = async () => {
+export const verify = async requestID => {
   try {
     // Get the verified request ID
     const requestVerifiedID = await AsyncStorage.getItem('requestVerifiedID')
 
-    if (requestVerifiedID) {
-      const { data } = await axios(`/verify/${requestVerifiedID}`)
+    if (requestID || requestVerifiedID) {
+      const { data } = await axios(`/verify/${requestID || requestVerifiedID}`)
 
       return data
     } else {

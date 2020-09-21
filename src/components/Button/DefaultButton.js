@@ -6,7 +6,7 @@ import { TouchableOpacity, ActivityIndicator } from 'react-native'
 import { DefaultText } from '@components'
 
 // Styles
-import { buttons, colors } from '@styles/styles'
+import { buttons } from '@styles/styles'
 
 /**
  * @desc    Render button with custom style
@@ -32,11 +32,7 @@ const DefaultButton = ({ children, style, onPress, bottom, loading }) => {
       onPress={onPress}
       disabled={loading}
     >
-      {loading ? (
-        <ActivityIndicator color={colors.supernova} />
-      ) : (
-        <DefaultText style={buttons.buttonText}> {children}</DefaultText>
-      )}
+      <DefaultText style={buttons.buttonText}> {children}</DefaultText>
     </TouchableOpacity>
   )
 }

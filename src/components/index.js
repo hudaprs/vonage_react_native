@@ -1,3 +1,6 @@
+// CONTAINER
+export { default as Container } from './Container/Container'
+
 // TEXT
 export { default as DefaultText } from './Text/DefaultText'
 
@@ -13,3 +16,6 @@ export { default as OTPInput } from './Input/OTPInput'
 
 // MODAL
 export { default as DefaultModal } from './Modal/DefaultModal'
+
+// SPINNER
+export { default as Spinner } from './Spinner/Spinner'

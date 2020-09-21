@@ -29,7 +29,7 @@ DefaultHeader.propTypes = {
 const styles = StyleSheet.create({
   headerDekor: {
     position: 'absolute',
-    top: -70,
+    top: -73,
     right: -50
   },
   headerTitleText: {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import {
   View,
   ScrollView,
@@ -13,7 +13,7 @@ import {
   DefaultButton,
   TextInputWithIcon,
   DefaultModal,
-  OTPInput
+  Spinner
 } from '@components'
 
 // Styles
@@ -62,35 +62,42 @@ const SignUpScreen = ({
   }
 
   return (
-    <View style={globalStyles.container}>
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Modal */}
-        <DefaultModal
-          visibility={!!auth.error}
-          onPress={onClearError}
-          titleHeader={auth.error ? auth.error.name : 'ERROR'}
+    <Fragment>
+      {/* Spinner */}
+      <Spinner loading={auth.loading} />
+
+      <View style={globalStyles.container}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'space-between'
+          }}
+          showsVerticalScrollIndicator={false}
         >
-          <DefaultText>
-            {auth.error ? auth.error : 'Something went wrong!'}
-          </DefaultText>
-        </DefaultModal>
-
-        <View>
-          <DefaultText>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Have a code
-            before? Go to{' '}
-            <DefaultText
-              style={colored.blue}
-              onPress={() => navigation.navigate('Verification')}
-            >
-              Verification
+          {/* Modal */}
+          <DefaultModal
+            visibility={!!auth.error}
+            onPress={onClearError}
+            titleHeader={auth.error ? auth.error.name : 'ERROR'}
+          >
+            <DefaultText>
+              {auth.error ? auth.error : 'Something went wrong!'}
             </DefaultText>
-          </DefaultText>
+          </DefaultModal>
 
-          {/* <TextInputWithIcon
+          <View>
+            <DefaultText>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Have a
+              code before? Go to{' '}
+              <DefaultText
+                style={colored.blue}
+                onPress={() => navigation.navigate('Verification')}
+              >
+                Verification
+              </DefaultText>
+            </DefaultText>
+
+            {/* <TextInputWithIcon
             placeholder='Name'
             name='name'
             onChangeText={onChangeText}
@@ -104,14 +111,14 @@ const SignUpScreen = ({
             value={registerData.email}
           /> */}
 
-          <TextInputWithIcon
-            placeholder='Phone'
-            name='phone'
-            onChangeText={onChangeText}
-            value={registerData.phone}
-          />
+            <TextInputWithIcon
+              placeholder='Phone'
+              name='phone'
+              onChangeText={onChangeText}
+              value={registerData.phone}
+            />
 
-          {/* <View style={[globalStyles.flexRow, globalStyles.inputGroup]}>
+            {/* <View style={[globalStyles.flexRow, globalStyles.inputGroup]}>
             <PasswordSVG style={styles.inputIcon} />
             <TextInput
               style={styles.textInput}
@@ -140,7 +147,7 @@ const SignUpScreen = ({
             )}
           </View> */}
 
-          {/* <View style={[globalStyles.flexRow, globalStyles.inputGroup]}>
+            {/* <View style={[globalStyles.flexRow, globalStyles.inputGroup]}>
             <PasswordSVG style={styles.inputIcon} />
             <TextInput
               style={styles.textInput}
@@ -173,13 +180,14 @@ const SignUpScreen = ({
               </TouchableOpacity>
             )}
           </View> */}
-        </View>
+          </View>
 
-        <DefaultButton onPress={onRegister} loading={auth.loading}>
-          Sign Up
-        </DefaultButton>
-      </ScrollView>
-    </View>
+          <DefaultButton onPress={onRegister} loading={auth.loading}>
+            Sign Up
+          </DefaultButton>
+        </ScrollView>
+      </View>
+    </Fragment>
   )
 }
 

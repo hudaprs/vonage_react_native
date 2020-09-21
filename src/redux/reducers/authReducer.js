@@ -6,6 +6,7 @@ import {
   CANCEL_REGISTER,
   CODE_VERIFY,
   VERIFY,
+  SET_VERIFY_VERIFICATION,
   SET_AUTH_ERROR,
   CLEAR_AUTH_ERROR
 } from '@reduxActions/authActions'
@@ -49,6 +50,8 @@ export default (state = initialState, { type, payload }) => {
         }
       }
     case REGISTER:
+    case CODE_VERIFY:
+    case SET_VERIFY_VERIFICATION:
       return {
         ...state,
         requestID: payload.request_id,
@@ -58,12 +61,6 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         requestID: '',
-        loading: false
-      }
-    case CODE_VERIFY:
-      return {
-        ...state,
-        requestID: payload.request_id,
         loading: false
       }
     case VERIFY:

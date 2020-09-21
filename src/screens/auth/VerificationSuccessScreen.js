@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, ScrollView } from 'react-native'
 
 // Components
-import { DefaultText, DefaultButton } from '@components'
+import { DefaultText, Spinner } from '@components'
 
 // SVG
 import VerificationSuccessSVG from '@images/auth/verification-success.svg'
@@ -14,13 +14,15 @@ import { globalStyles, fonts, margins, colored } from '@styles/styles'
 import { connect } from 'react-redux'
 import { VERIFY_REQUESTED } from '@reduxActions/authActions'
 
-const ValidationSuccessScreen = ({ verify, auth }) => {
-  const onVerify = () => {
-    verify()
-  }
+const ValidationSuccessScreen = ({ route, verify, auth }) => {
+  useEffect(() => {
+    verify(route.params.requestID)
+    // eslint-disable-nextline
+  }, [])
 
   return (
     <View style={[globalStyles.container]}>
+      <Spinner loading={auth.loading} />
       <ScrollView
         contentContainerStyle={[globalStyles.allCenter, globalStyles.grow]}
       >
@@ -33,15 +35,6 @@ const ValidationSuccessScreen = ({ verify, auth }) => {
           Your have <DefaultText style={colored.blue}>Successfully</DefaultText>{' '}
           verified this account
         </DefaultText>
-
-        {/* Button */}
-        <DefaultButton
-          style={{ position: 'absolute', bottom: 0 }}
-          loading={auth.loading}
-          onPress={onVerify}
-        >
-          Go To Home Page
-        </DefaultButton>
       </ScrollView>
     </View>
   )
@@ -52,7 +45,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  verify: () => dispatch({ type: VERIFY_REQUESTED })
+  verify: requestID => dispatch({ type: VERIFY_REQUESTED, payload: requestID })
 })
 
 export default connect(
