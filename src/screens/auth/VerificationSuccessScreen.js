@@ -12,14 +12,8 @@ import { globalStyles, fonts, margins, colored } from '@styles/styles'
 
 // Redux
 import { connect } from 'react-redux'
-import { VERIFY_REQUESTED } from '@reduxActions/authActions'
 
-const ValidationSuccessScreen = ({ route, verify, auth }) => {
-  useEffect(() => {
-    verify(route.params.requestID)
-    // eslint-disable-nextline
-  }, [])
-
+const ValidationSuccessScreen = ({ auth }) => {
   return (
     <View style={[globalStyles.container]}>
       <Spinner loading={auth.loading} />
@@ -44,11 +38,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-const mapDispatchToProps = dispatch => ({
-  verify: requestID => dispatch({ type: VERIFY_REQUESTED, payload: requestID })
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ValidationSuccessScreen)
+export default connect(mapStateToProps)(ValidationSuccessScreen)

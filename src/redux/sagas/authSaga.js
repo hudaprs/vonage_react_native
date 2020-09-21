@@ -101,22 +101,25 @@ function* cancelRegister({ payload }) {
 function* verifyCode({ payload }) {
   yield put({ type: SET_AUTH_LOADING })
 
-  const verify = yield call(verifyCodeAPI, payload)
+  const verifyCode = yield call(verifyCodeAPI, payload)
 
   // Check for error
-  if (verify.name !== 'Error') {
-    console.log('VERIFY CODE SUCCESS', verify)
-    yield put({ type: CODE_VERIFY, payload: verify.result })
+  if (verifyCode.name !== 'Error') {
+    console.log('VERIFY CODE SUCCESS', verifyCode)
+    yield put({ type: CODE_VERIFY, payload: verifyCode.result })
 
     // Navigate to success screen
     yield navigate('VerificationSuccess', {
-      requestID: verify.result.request_id
+      requestID: verifyCode.result.request_id
     })
+
+    // Verify the user again
+    yield call(verify, verifyCode.result.request_id)
   } else {
-    console.log('VERIFY CODE ERROR', verify)
+    console.log('VERIFY CODE ERROR', verifyCode)
     yield put({
       type: SET_AUTH_ERROR,
-      payload: verify.response.data.message || verify.message
+      payload: verifyCode.response.data.message || verifyCode.message
     })
   }
 }
