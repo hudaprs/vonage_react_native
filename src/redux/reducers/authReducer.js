@@ -8,7 +8,8 @@ import {
   VERIFY,
   SET_VERIFY_VERIFICATION,
   SET_AUTH_ERROR,
-  CLEAR_AUTH_ERROR
+  CLEAR_AUTH_ERROR,
+  LOGOUT
 } from '@reduxActions/authActions'
 
 const initialState = {
@@ -81,6 +82,11 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         error: null
+      }
+    case LOGOUT:
+      return {
+        ...state,
+        requestVerifiedID: ''
       }
     default:
       return state

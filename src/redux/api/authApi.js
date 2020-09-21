@@ -102,3 +102,12 @@ export const verify = async requestID => {
     return err
   }
 }
+
+// logout
+export const logout = async () => {
+  try {
+    await AsyncStorage.removeItem('requestVerifiedID')
+  } catch (err) {
+    return err
+  }
+}

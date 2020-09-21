@@ -1,4 +1,4 @@
-import { put, call, takeLatest } from 'redux-saga/effects'
+import { put, call, takeLatest, delay } from 'redux-saga/effects'
 
 // GET ALL ACTIONS
 import {
@@ -14,7 +14,9 @@ import {
   VERIFY_REQUESTED,
   SET_VERIFY_VERIFICATION,
   SET_VERIFY_VERIFICATION_REQUESTED,
-  SET_AUTH_ERROR
+  SET_AUTH_ERROR,
+  LOGOUT,
+  LOGOUT_REQUESTED
 } from '@reduxActions/authActions'
 
 // GET ALL API's
@@ -23,7 +25,8 @@ import {
   cancelRegister as cancelRegisterAPI,
   verifyCode as verifyCodeAPI,
   verify as verifyAPI,
-  verifyVerification as verifyVerificationAPI
+  verifyVerification as verifyVerificationAPI,
+  logout as logoutAPI
 } from '@api/authApi'
 
 // Navigations
@@ -108,13 +111,15 @@ function* verifyCode({ payload }) {
     console.log('VERIFY CODE SUCCESS', verifyCode)
     yield put({ type: CODE_VERIFY, payload: verifyCode.result })
 
+    console.log(verifyCode)
+
     // Navigate to success screen
     yield navigate('VerificationSuccess', {
       requestID: verifyCode.result.request_id
     })
 
     // Verify the user again
-    yield call(verify, verifyCode.result.request_id)
+    yield call(verify, { payload: verifyCode.result.request_id })
   } else {
     console.log('VERIFY CODE ERROR', verifyCode)
     yield put({
@@ -163,6 +168,9 @@ function* verifyVerification() {
 function* verify({ payload }) {
   yield put({ type: SET_AUTH_LOADING })
 
+  // Must be delayed, because Vonage API, must be delayed after you verify your code
+  yield delay(3000)
+
   const verify = yield call(verifyAPI, payload)
 
   // Mark for development
@@ -188,10 +196,15 @@ function* verify({ payload }) {
   }
 }
 
+function* logout() {
+  yield call(logoutAPI, LOGOUT)
+}
+
 export default function* authSaga() {
   yield takeLatest(REGISTER_REQUESTED, register)
   yield takeLatest(CANCEL_REGISTER_REQUESTED, cancelRegister)
   yield takeLatest(CODE_VERIFY_REQUESTED, verifyCode)
   yield takeLatest(VERIFY_REQUESTED, verify)
   yield takeLatest(SET_VERIFY_VERIFICATION_REQUESTED, verifyVerification)
+  yield takeLatest(LOGOUT_REQUESTED, logout)
 }

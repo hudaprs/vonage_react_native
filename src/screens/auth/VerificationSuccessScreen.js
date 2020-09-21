@@ -27,7 +27,7 @@ const ValidationSuccessScreen = ({ auth }) => {
 
         <DefaultText>
           Your have <DefaultText style={colored.blue}>Successfully</DefaultText>{' '}
-          verified this account
+          verified this account, you will be redirected soon
         </DefaultText>
       </ScrollView>
     </View>
