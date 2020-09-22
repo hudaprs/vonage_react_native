@@ -161,15 +161,15 @@ function* verifyVerification() {
 }
 
 /**
- * @desc    Verify
+ * @desc    Verify when user successfully registering the OTP
  * @method  POST
  * @access  Private
  */
 function* verify({ payload }) {
-  yield put({ type: SET_AUTH_LOADING })
-
   // Must be delayed, because Vonage API, must be delayed after you verify your code
   yield delay(3000)
+
+  yield put({ type: SET_AUTH_LOADING })
 
   const verify = yield call(verifyAPI, payload)
 
@@ -196,6 +196,11 @@ function* verify({ payload }) {
   }
 }
 
+/**
+ * @desc    Logout a user (TBD)
+ * @method  POST
+ * @access  Private
+ */
 function* logout() {
   yield call(logoutAPI, LOGOUT)
 }

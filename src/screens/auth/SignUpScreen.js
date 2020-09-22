@@ -1,11 +1,5 @@
-import React, { Fragment, useState } from 'react'
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity
-} from 'react-native'
+import React, { Fragment } from 'react'
+import { View, ScrollView } from 'react-native'
 
 // Components
 import {
@@ -17,12 +11,7 @@ import {
 } from '@components'
 
 // Styles
-import { globalStyles, colors, colored } from '@styles/styles'
-
-// SVG
-import PasswordSVG from '@images/auth/password.svg'
-import EyeOffSVG from '@images/auth/eyeoff.svg'
-import EyeOnSVG from '@images/auth/eyeon.svg'
+import { globalStyles, colored } from '@styles/styles'
 
 // Redux
 import { connect } from 'react-redux'
@@ -39,11 +28,6 @@ const SignUpScreen = ({
   register,
   clearError
 }) => {
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmationPassword, setShowConfirmationPassword] = useState(
-    false
-  )
-
   // Redux States
   const { registerData } = auth
 
@@ -52,6 +36,7 @@ const SignUpScreen = ({
     setRegisterData({ ...registerData, [name]: value })
   }
 
+  // Clear error message when user pressing modal button
   const onClearError = () => {
     clearError()
   }
@@ -85,6 +70,7 @@ const SignUpScreen = ({
             </DefaultText>
           </DefaultModal>
 
+          {/* Content */}
           <View>
             <DefaultText>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Have a
@@ -97,89 +83,12 @@ const SignUpScreen = ({
               </DefaultText>
             </DefaultText>
 
-            {/* <TextInputWithIcon
-            placeholder='Name'
-            name='name'
-            onChangeText={onChangeText}
-            value={registerData.name}
-          />
-
-          <TextInputWithIcon
-            placeholder='Email'
-            name='email'
-            onChangeText={onChangeText}
-            value={registerData.email}
-          /> */}
-
             <TextInputWithIcon
               placeholder='Phone'
               name='phone'
               onChangeText={onChangeText}
               value={registerData.phone}
             />
-
-            {/* <View style={[globalStyles.flexRow, globalStyles.inputGroup]}>
-            <PasswordSVG style={styles.inputIcon} />
-            <TextInput
-              style={styles.textInput}
-              placeholder='Password'
-              underlineColorAndroid='transparent'
-              secureTextEntry={!showPassword}
-              value={registerData.password}
-              onChangeText={password =>
-                setRegisterData({ ...registerData, password })
-              }
-            />
-            {showPassword ? (
-              <TouchableOpacity
-                style={[styles.inputIcon, { right: 0 }]}
-                onPress={() => setShowPassword(!showPassword)}
-              >
-                <EyeOnSVG />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={[styles.inputIcon, { right: 0 }]}
-                onPress={() => setShowPassword(!showPassword)}
-              >
-                <EyeOffSVG />
-              </TouchableOpacity>
-            )}
-          </View> */}
-
-            {/* <View style={[globalStyles.flexRow, globalStyles.inputGroup]}>
-            <PasswordSVG style={styles.inputIcon} />
-            <TextInput
-              style={styles.textInput}
-              placeholder='Confirm Password'
-              underlineColorAndroid='transparent'
-              secureTextEntry={!showConfirmationPassword}
-              value={registerData.passwordConfirmation}
-              onChangeText={passwordConfirmation =>
-                setRegisterData({ ...registerData, passwordConfirmation })
-              }
-            />
-
-            {showConfirmationPassword ? (
-              <TouchableOpacity
-                style={[styles.inputIcon, { right: 0 }]}
-                onPress={() =>
-                  setShowConfirmationPassword(!showConfirmationPassword)
-                }
-              >
-                <EyeOnSVG />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={[styles.inputIcon, { right: 0 }]}
-                onPress={() =>
-                  setShowConfirmationPassword(!showConfirmationPassword)
-                }
-              >
-                <EyeOffSVG />
-              </TouchableOpacity>
-            )}
-          </View> */}
           </View>
 
           <DefaultButton onPress={onRegister} loading={auth.loading}>
@@ -190,20 +99,6 @@ const SignUpScreen = ({
     </Fragment>
   )
 }
-
-const styles = StyleSheet.create({
-  textInput: {
-    borderBottomColor: '#eee',
-    borderBottomWidth: 1,
-    fontFamily: 'Poppins-Regular',
-    color: colors.black,
-    width: '100%',
-    paddingLeft: 30
-  },
-  inputIcon: {
-    position: 'absolute'
-  }
-})
 
 const mapStateToProps = state => ({
   auth: state.auth
